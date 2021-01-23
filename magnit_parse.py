@@ -16,21 +16,6 @@ class MagnitParser:
         self.data_client = data_client
         self.data_base = self.data_client["magnit_parse"]
 
-    current_year = 2021
-
-    months = {"января": 1,
-              "февраля": 2,
-              "марта": 3,
-              "апреля": 4,
-              "мая": 5,
-              "июня": 6,
-              "июля": 7,
-              "августа": 8,
-              "сентября": 9,
-              "октября": 10,
-              "ноября": 11,
-              "декабря": 12}
-
     @staticmethod
     def _get_response(url, *args, **kwargs):
         while True:
@@ -58,6 +43,7 @@ class MagnitParser:
         for product_tag in catalog_main.find_all("a", attrs={"class": "card-sale"}):
             yield self._get_product_data(product_tag)
 
+
     @property
     def data_template(self):
         return {
@@ -68,19 +54,11 @@ class MagnitParser:
                 f"{(tag.find('div', attrs={'class': 'label__price_old'}).find('span', attrs={'class': 'label__price-integer'}).text)}.{(tag.find('div', attrs={'class': 'label__price_old'}).find('span', attrs={'class': 'label__price-decimal'}).text)}"),
             'new_price': lambda tag: float(
                 f"{(tag.find('div', attrs={'class': 'label__price_new'}).find('span', attrs={'class': 'label__price-integer'}).text)}.{(tag.find('div', attrs={'class': 'label__price_new'}).find('span', attrs={'class': 'label__price-decimal'}).text)}"),
-            'image_url': lambda tag: urljoin('https://magnit.ru/',
-                                             tag.find('img', attrs={'class': 'lazy'}).attrs.get('data-src')),
-            'date_from': self._get_date_from,
-            'date_to': self._get_date_to
+            'image_url': lambda tag: urljoin('https://magnit.ru/', tag.find('img', attrs={'class': 'lazy'}).attrs.get('data-src')),
+            'date_from': lambda tag: self.get_date(tag, 0),
+            'date_to': lambda tag: self.get_date(tag, 1)
         }
 
-    def _get_date_from(self, tag: bs4.Tag) -> datetime.datetime:
-        sale_period = tag.find('div', attrs={"class": "card-sale__date"}).text.split()
-        return datetime.datetime(self.current_year, self.months[sale_period[2]], int(sale_period[1]))
-
-    def _get_date_to(self, tag: bs4.Tag) -> datetime.datetime:
-        sale_period = tag.find('div', attrs={"class": "card-sale__date"}).text.split()
-        return datetime.datetime(self.current_year, self.months[sale_period[-1]], int(sale_period[-2]))
 
     def _get_product_data(self, product_tag: bs4.Tag) -> dict:
         data = {}
