@@ -5,19 +5,21 @@
 
 import scrapy
 
+class GbParseItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    pass
 
-class VacancyItem(scrapy.Item):
+class HhruItem(scrapy.Item):
     _id = scrapy.Field()
-    vac_name = scrapy.Field()
+    url = scrapy.Field()
+    title = scrapy.Field()
     salary = scrapy.Field()
-    vac_info = scrapy.Field()
-    key_skills = scrapy.Field()
-    employer_url = scrapy.Field()
+    description = scrapy.Field()
+    skills = scrapy.Field()
+    vacancy_author_url = scrapy.Field()
+    company_name = scrapy.Field()
+    company_website = scrapy.Field()
+    company_description = scrapy.Field()
+    company_tags = scrapy.Field()
 
-class EmployerItem(scrapy.Item):
-        _id = scrapy.Field()
-        emp_name = scrapy.Field()
-        url = scrapy.Field()
-        area_of_activity = scrapy.Field()
-        emp_description = scrapy.Field()
-        emp_vacancy_offer = scrapy.Field()
