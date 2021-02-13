@@ -11,8 +11,8 @@ class InstagramSpider(scrapy.Spider):
     start_urls = ['https://www.instagram.com/']
 
     query_hash = {
-        'following': 'd04b0a864b4b54837c0d870b0e77e076',
-        'followed': 'c76146de99bb02f6415203be841dd25a',
+        'follow': 'd04b0a864b4b54837c0d870b0e77e076',
+        'followers': 'c76146de99bb02f6415203be841dd25a',
     }
 
     def __init__(self, login, password, *args, **kwargs):
