@@ -6,7 +6,7 @@ from ..items import InstaFollowed, InstaFollowing
 
 class HandshakesSpider(scrapy.Spider):
     db_type = 'MONGO'
-    name = 'insta_handshakes'
+    name = 'instagram_2'
     allowed_domains = ['www.instagram.com']
     login_url = 'https://www.instagram.com/accounts/login/ajax/'
     start_urls = ['http://www.instagram.com/']
